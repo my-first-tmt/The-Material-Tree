@@ -1,19 +1,19 @@
 let modInfo = {
-	name: "The ??? Tree",
-	author: "nobody",
+	name: "The Material Tree",
+	author: "liam",
 	pointsName: "points",
-	modFiles: ["layers.js", "tree.js"],
+	modFiles: ["tree.js", 'st.js', 'm.js', 's.js'],
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
-	offlineLimit: 1,  // In hours
+	initialStartPoints: new Decimal (0), // Used for hard resets and new players
+	offlineLimit: 0.5,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "1.00",
+	name: "",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -41,8 +41,25 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(1)
-	return gain
+let gain = new Decimal(1)
+if (hasUpgrade('st', 11)) gain = gain.times(2.5)
+if (hasUpgrade('st', 12)) gain = gain.times(upgradeEffect('st', 12))
+if (hasUpgrade('st', 13)) gain = gain.times(upgradeEffect('st', 13))
+if (hasUpgrade('st', 15)) gain = gain.times(3.45)
+if (hasUpgrade('st', 22)) gain = gain.times(upgradeEffect('st', 22))
+if (hasUpgrade('st', 24)) gain = gain.times(2.25)
+if (hasUpgrade('st', 31)) gain = gain.times(upgradeEffect('st', 31))
+if (hasUpgrade('st', 32)) gain = gain.times(upgradeEffect('st', 32))
+if (hasUpgrade('st', 35)) gain = gain.times(3.35)
+
+if (hasUpgrade('s', 11)) gain = gain.times(1.75)
+if (hasUpgrade('s', 12)) gain = gain.times(upgradeEffect('s', 12))
+
+if (hasMilestone('m', 1)) gain = gain.times(3)
+if (hasMilestone('m', 2)) gain = gain.times(2.25)
+
+
+return gain
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -55,7 +72,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return false
 }
 
 
